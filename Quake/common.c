@@ -2190,15 +2190,16 @@ static void COM_Game_f (void)
 			}
 		}
 
-		q_strlcpy (newgamedir, va("%s/%s", com_basedir, p), sizeof(newgamedir));
-		
-		if (Sys_FileType(newgamedir) != FS_ENT_DIRECTORY)
+		if (Sys_FileType(va("%s/%s", com_basedir, p)) != FS_ENT_DIRECTORY)
 		{
-			Con_Printf("The game '%s' couldn't be found.\n", p);
-			return;
+			if (host_parms->userdir == host_parms->basedir || (Sys_FileType(va("%s/%s", host_parms->userdir, p)) != FS_ENT_DIRECTORY))
+			{
+				Con_Printf ("No such game directory \"%s\"\n", p);
+				return;
+			}
 		}
 
-		if (!Q_strcmp(p, COM_SkipPath(com_gamedir))) //no change
+		if (!q_strcasecmp(p, COM_SkipPath(com_gamedir))) //no change
 		{
 			if (com_searchpaths->path_id > 1) { //current game not id1
 				if (*p2 && com_searchpaths->path_id == 2) {

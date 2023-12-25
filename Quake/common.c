@@ -2161,6 +2161,7 @@ static void COM_Game_f (void)
 {
 	if (Cmd_Argc() > 1)
 	{
+		char newgamedir[MAX_OSPATH];
 		const char *p = Cmd_Argv(1);
 		const char *p2 = Cmd_Argv(2);
 		searchpath_t *search;
@@ -2187,6 +2188,14 @@ static void COM_Game_f (void)
 				Con_Printf ("no mission pack arguments to %s game\n", GAMENAME);
 				return;
 			}
+		}
+
+		q_strlcpy (newgamedir, va("%s/%s", com_basedir, p), sizeof(newgamedir));
+		
+		if (Sys_FileType(newgamedir) == FS_ENT_NONE)
+		{
+			Con_Printf("The game '%s' couldn't be found.\n", p);
+			return;
 		}
 
 		if (!q_strcasecmp(p, COM_SkipPath(com_gamedir))) //no change

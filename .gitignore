@@ -1,5 +1,8 @@
+.vscode
+
 Quake/*.d
 Quake/*.o
 
-Quake/history.txt
 Quake/quakespasm
+
+history.txt

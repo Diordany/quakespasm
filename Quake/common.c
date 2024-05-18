@@ -2198,7 +2198,7 @@ static void COM_Game_f (void)
 			return;
 		}
 
-		if (!q_strcasecmp(p, COM_SkipPath(com_gamedir))) //no change
+		if (!Q_strcmp(p, COM_SkipPath(com_gamedir))) //no change
 		{
 			if (com_searchpaths->path_id > 1) { //current game not id1
 				if (*p2 && com_searchpaths->path_id == 2) {

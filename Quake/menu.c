@@ -1614,6 +1614,50 @@ int		msgNumber;
 enum m_state_e	m_quit_prevstate;
 qboolean	wasInMenus;
 
+char *quitMessage [] = 
+{
+/* .........1.........2.... */
+	"  Are you gonna quit    ",
+	"  this game just like   ",
+	"   everything else?     ",
+	"                        ",
+
+	" Milord, methinks that  ",
+	"   thou art a lowly     ",
+	" quitter. Is this true? ",
+	"                        ",
+
+	" Do I need to bust your ",
+	"  face open for trying  ",
+	"        to quit?        ",
+	"                        ",
+
+	" Man, I oughta smack you",
+	"   for trying to quit!  ",
+	"     Press Y to get     ",
+	"      smacked out.      ",
+
+	" Press Y to quit like a ",
+	"   big loser in life.   ",
+	"  Press N to stay proud ",
+	"    and successful!     ",
+
+	"   If you press Y to    ",
+	"  quit, I will summon   ",
+	"  Satan all over your   ",
+	"      hard drive!       ",
+
+	"  Um, Asmodeus dislikes ",
+	" his children trying to ",
+	" quit. Press Y to return",
+	"   to your Tinkertoys.  ",
+
+	"  If you quit now, I'll ",
+	"  throw a blanket-party ",
+	"   for you next time!   ",
+	"                        "
+};
+
 void M_Menu_Quit_f (void)
 {
 	if (m_state == m_quit)
@@ -1673,9 +1717,6 @@ qboolean M_Quit_TextEntry (void)
 
 void M_Quit_Draw (void) //johnfitz -- modified for new quit message
 {
-	char *msg = "Press [q] to quit";
-	int msgLen = strlen(msg);
-
 	if (wasInMenus)
 	{
 		m_state = m_quit_prevstate;
@@ -1684,20 +1725,11 @@ void M_Quit_Draw (void) //johnfitz -- modified for new quit message
 		m_state = m_quit;
 	}
 
-	// Diordany -- The characters seem to be 8 units wide.
-	int contentLen = 8*msgLen;
-
-	// Diordany -- Centering the message on the screen. The menu seems to be 320
-	// units (40 characters) wide.
-	int msgX = (320 - contentLen)/2;
-
-	// Diordany -- Drawing the message right under the menu.
-	int msgY = 160;
-
-	// Diordany -- Offset the box by 12 units (1.5 characters) to fit around the
-	// text.
-	M_DrawTextBox(msgX - 12, msgY - 12, msgLen, 2);
-	M_PrintWhite(msgX, msgY, msg);
+	M_DrawTextBox (56, 76, 24, 4);
+	M_Print (64, 84,  quitMessage[msgNumber*4+0]);
+	M_Print (64, 92,  quitMessage[msgNumber*4+1]);
+	M_Print (64, 100, quitMessage[msgNumber*4+2]);
+	M_Print (64, 108, quitMessage[msgNumber*4+3]);
 }
 
 //=============================================================================

@@ -390,7 +390,7 @@ void M_SinglePlayer_Key (int key)
 		{
 		case 0:
 			if (sv.active)
-				if (!SCR_ModalMessage("Are you sure you want to\nstart a new game? (y/n)\n", 0.0f))
+				if (!SCR_ModalMessage("Are you sure you want to\nstart a new game? [y/n]\n", 0.0f))
 					break;
 			IN_Activate();
 			key_dest = key_game;
@@ -1288,7 +1288,7 @@ void M_Options_Key (int k)
 			break;
 		case OPT_DEFAULTS:
 			if (SCR_ModalMessage("This will reset all controls\n"
-					"and stored cvars. Continue? (y/n)\n", 15.0f))
+					"and stored cvars. Continue? [y/n]\n", 15.0f))
 			{
 				Cbuf_AddText ("resetcfg\n");
 				Cbuf_AddText ("exec default.cfg\n");

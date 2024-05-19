@@ -1617,45 +1617,37 @@ qboolean	wasInMenus;
 char *quitMessage [] = 
 {
 /* .........1.........2.... */
-	"  Are you gonna quit    ",
-	"  this game just like   ",
-	"   everything else?     ",
-	"                        ",
+	"     Are you gonna quit this game      ",
+	"   just like everything else? [Y/N]    ",
+	"                                       ",
 
-	" Milord, methinks that  ",
-	"   thou art a lowly     ",
-	" quitter. Is this true? ",
-	"                        ",
+	"   Milord, methinks that thou art a    ",
+	"  lowly quitter. Is this true? [Y/N]   ",
+	"                                       ",
 
-	" Do I need to bust your ",
-	"  face open for trying  ",
-	"        to quit?        ",
-	"                        ",
+	"   Do I need to bust your face open    ",
+	"       for trying to quit? [Y/N]       ",
+	"                                       ",
 
-	" Man, I oughta smack you",
-	"   for trying to quit!  ",
-	"     Press Y to get     ",
-	"      smacked out.      ",
+	" Man, I oughta smack you for trying to ",
+	"  quit! Press [Y] to get smacked out.  ",
+	"        Press [N] to decline.          ",
 
-	" Press Y to quit like a ",
-	"   big loser in life.   ",
-	"  Press N to stay proud ",
-	"    and successful!     ",
+	" Press [Y] to quit like a big loser in ",
+	"   life. Press [N] to stay proud and   ",
+	"             successful!               ",
 
-	"   If you press Y to    ",
-	"  quit, I will summon   ",
-	"  Satan all over your   ",
-	"      hard drive!       ",
+	"If you press [Y] to quit, I will summon",
+	"    Satan all over your hard drive!    ",
+	"         Press [N] to return.          ",
 
-	"  Um, Asmodeus dislikes ",
-	" his children trying to ",
-	" quit. Press Y to return",
-	"   to your Tinkertoys.  ",
+	"  Um, Asmodeus dislikes his children   ",
+	"trying to quit. Press [Y] to return to ",
+	"  your Tinkertoys. Press [N] to stay.  ",
 
-	"  If you quit now, I'll ",
-	"  throw a blanket-party ",
-	"   for you next time!   ",
-	"                        "
+	"   If you quit now [Y], I'll throw a   ",
+	"   blanket-party for you next time!    ",
+	"         press [N] to return.          ",
 };
 
 void M_Menu_Quit_f (void)
@@ -1725,11 +1717,9 @@ void M_Quit_Draw (void) //johnfitz -- modified for new quit message
 		m_state = m_quit;
 	}
 
-	M_DrawTextBox (56, 76, 24, 4);
-	M_Print (64, 84,  quitMessage[msgNumber*4+0]);
-	M_Print (64, 92,  quitMessage[msgNumber*4+1]);
-	M_Print (64, 100, quitMessage[msgNumber*4+2]);
-	M_Print (64, 108, quitMessage[msgNumber*4+3]);
+	M_PrintWhite(12, 156, quitMessage[msgNumber*3]);
+	M_PrintWhite(12, 168, quitMessage[msgNumber*3 + 1]);
+	M_PrintWhite(12, 180, quitMessage[msgNumber*3 + 2]);
 }
 
 //=============================================================================

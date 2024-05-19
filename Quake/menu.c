@@ -1651,23 +1651,8 @@ void M_Quit_Char (int key)
 {
 	switch (key)
 	{
-	case 'n':
-	case 'N':
-		if (wasInMenus)
-		{
-			m_state = m_quit_prevstate;
-			m_entersound = true;
-		}
-		else
-		{
-			IN_Activate();
-			key_dest = key_game;
-			m_state = m_none;
-		}
-		break;
-
-	case 'y':
-	case 'Y':
+	case 'q':
+	case 'Q':
 		IN_Deactivate(modestate == MS_WINDOWED);
 		key_dest = key_console;
 		Host_Quit_f ();
@@ -1688,10 +1673,8 @@ qboolean M_Quit_TextEntry (void)
 
 void M_Quit_Draw (void) //johnfitz -- modified for new quit message
 {
-	char	msg1[] = "QuakeSpasm " QUAKESPASM_VER_STRING;
-	char	msg2[] = "by Ozkan Sezer,Eric Wasylishen,others"; /* msg2/msg3 are [38] at most */
-	char	msg3[] = "Press y to quit";
-	int		boxlen;
+	char *msg = "Press [q] to quit";
+	int msgLen = strlen(msg);
 
 	if (wasInMenus)
 	{
@@ -1701,16 +1684,20 @@ void M_Quit_Draw (void) //johnfitz -- modified for new quit message
 		m_state = m_quit;
 	}
 
-	//okay, this is kind of fucked up.  M_DrawTextBox will always act as if
-	//width is even. Also, the width and lines values are for the interior of the box,
-	//but the x and y values include the border.
-	boxlen = (q_max(sizeof(msg1), q_max(sizeof(msg2),sizeof(msg3))) + 1) & ~1;
-	M_DrawTextBox	(160-4*(boxlen+2), 76, boxlen, 4);
+	// Diordany -- The characters seem to be 8 units wide.
+	int contentLen = 8*msgLen;
 
-	//now do the text
-	M_Print			(160-4*(sizeof(msg1)-1), 88, msg1);
-	M_Print			(160-4*(sizeof(msg2)-1), 96, msg2);
-	M_PrintWhite		(160-4*(sizeof(msg3)-1), 104, msg3);
+	// Diordany -- Centering the message on the screen. The menu seems to be 320
+	// units (40 characters) wide.
+	int msgX = (320 - contentLen)/2;
+
+	// Diordany -- Drawing the message right under the menu.
+	int msgY = 160;
+
+	// Diordany -- Offset the box by 12 units (1.5 characters) to fit around the
+	// text.
+	M_DrawTextBox(msgX - 12, msgY - 12, msgLen, 2);
+	M_PrintWhite(msgX, msgY, msg);
 }
 
 //=============================================================================

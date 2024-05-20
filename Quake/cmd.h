@@ -81,6 +81,8 @@ typedef enum
 
 extern	cmd_source_t	cmd_source;
 
+extern	cvar_t	con_printcmd;
+
 void	Cmd_Init (void);
 
 void	Cmd_AddCommand (const char *cmd_name, xcommand_t function);

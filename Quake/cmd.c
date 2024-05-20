@@ -41,6 +41,8 @@ cmdalias_t	*cmd_alias;
 
 qboolean	cmd_wait;
 
+cvar_t	con_printcmd = {"con_printcmd", "0"};
+
 //=============================================================================
 
 /*
@@ -583,6 +585,8 @@ void Cmd_Init (void)
 
 	Cmd_AddCommand ("apropos", Cmd_Apropos_f);
 	Cmd_AddCommand ("find", Cmd_Apropos_f);
+
+	Cvar_RegisterVariable(&con_printcmd);
 }
 
 /*
@@ -779,6 +783,9 @@ void	Cmd_ExecuteString (const char *text, cmd_source_t src)
 {
 	cmd_function_t	*cmd;
 	cmdalias_t		*a;
+
+	if (con_printcmd.value)
+		Con_Printf("%s\n", text);
 
 	cmd_source = src;
 	Cmd_TokenizeString (text);

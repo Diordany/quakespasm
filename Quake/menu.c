@@ -1687,8 +1687,23 @@ void M_Quit_Char (int key)
 {
 	switch (key)
 	{
-	case 'q':
-	case 'Q':
+	case 'n':
+	case 'N':
+		if (wasInMenus)
+		{
+			m_state = m_quit_prevstate;
+			m_entersound = true;
+		}
+		else
+		{
+			IN_Activate();
+			key_dest = key_game;
+			m_state = m_none;
+		}
+		break;
+
+	case 'y':
+	case 'Y':
 		IN_Deactivate(modestate == MS_WINDOWED);
 		key_dest = key_console;
 		Host_Quit_f ();

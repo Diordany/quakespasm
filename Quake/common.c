@@ -2192,7 +2192,7 @@ static void COM_Game_f (void)
 
 		q_strlcpy (newgamedir, va("%s/%s", com_basedir, p), sizeof(newgamedir));
 		
-		if (Sys_FileType(newgamedir) == FS_ENT_NONE)
+		if (Sys_FileType(newgamedir) != FS_ENT_DIRECTORY)
 		{
 			Con_Printf("The game '%s' couldn't be found.\n", p);
 			return;

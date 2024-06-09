@@ -707,6 +707,8 @@ void IN_MouseMove(usercmd_t *cmd)
 	dmx = total_dx * sensitivity.value;
 	dmy = total_dy * sensitivity.value;
 
+	Con_Printf("Mouse (%f, %f)\n", dmx, dmy);
+
 	total_dx = 0;
 	total_dy = 0;
 
@@ -849,7 +851,7 @@ static inline int IN_SDL_KeysymToQuakeKey(SDLKey sym)
 	case SDLK_BREAK: return K_PAUSE;
 	case SDLK_PAUSE: return K_PAUSE;
 
-	case SDLK_WORLD_18: return '~'; // the '²' key
+	case SDLK_WORLD_18: return '~'; // the 'ï¿½' key
 
 	default: return 0;
 	}

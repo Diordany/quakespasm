@@ -58,10 +58,18 @@ To enable user directory support, run:
 make DO_USERDIRS=1
 ```
 
-## Custom CVars
+## Custom CVars & Commands
 
-Here's an overview of custom CVars that have been included in this version:
+Here's an overview of custom CVars and commands that have been included in this version:
 
-| CVar               | Description                                                         |
-|:-------------------|:-------------------------------------------------------------------:|
+### CVars
+
+| Name               | Description                                                         |
+|:-------------------|:--------------------------------------------------------------------|
 | ***con_printcmd*** | *Prints the names of commands that are being executed in realtime.* |
+
+### Commands
+
+| Name       | Description                                                |
+|:-----------|:-----------------------------------------------------------|
+| ***exit*** | *Quits the game immediately (just like the quit command).* |

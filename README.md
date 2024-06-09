@@ -6,15 +6,15 @@
 
 Forked from Ozkan Sezer's repository. Has some tweaks and hacks here and there that I like to use. For a more stable and cross-platform experience, please use the official QuakeSpasm repository instead.
 
-## Official Repository Links
+## Official QuakeSpasm Links
 
-SOURCEFORGE: https://sourceforge.net/p/quakespasm/quakespasm/ci/master/tree/
+[Releases](http://quakespasm.sourceforge.net/download.htm)
 
-GitHub Mirror: https://github.com/sezero/quakespasm
+[SOURCEFORGE Repository](https://sourceforge.net/p/quakespasm/quakespasm/ci/master/tree/)
 
-Releases: http://quakespasm.sourceforge.net/download.htm
+[GitHub Mirror Repository](https://github.com/sezero/quakespasm)
 
-[QuakeSpasm readme](Quakespasm.txt)
+[Readme](https://github.com/sezero/quakespasm/blob/master/Quakespasm.txt)
 
 I'll try to keep the `upstream` branch up to date with the official repository.
 

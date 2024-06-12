@@ -2161,7 +2161,6 @@ static void COM_Game_f (void)
 {
 	if (Cmd_Argc() > 1)
 	{
-		char newgamedir[MAX_OSPATH];
 		const char *p = Cmd_Argv(1);
 		const char *p2 = Cmd_Argv(2);
 		searchpath_t *search;

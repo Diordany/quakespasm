@@ -28,6 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern cvar_t	pausable;
 
+cvar_t	host_loopmap = {"host_loopmap", "0", CVAR_NONE};
+
 int	current_skill;
 
 /*
@@ -895,7 +897,10 @@ static void Host_Changelevel_f (void)
 	}
 
 	//johnfitz -- check for client having map before anything else
-	q_snprintf (level, sizeof(level), "maps/%s.bsp", Cmd_Argv(1));
+	if (host_loopmap.value)
+		q_snprintf (level, sizeof(cl.mapname), "maps/%s.bsp", cl.mapname);
+	else
+		q_snprintf (level, sizeof(level), "maps/%s.bsp", Cmd_Argv(1));
 	if (!COM_FileExists(level, NULL))
 		Host_Error ("cannot find map %s", level);
 	//johnfitz
@@ -904,7 +909,10 @@ static void Host_Changelevel_f (void)
 		IN_Activate();	// -- S.A.
 	key_dest = key_game;	// remove console or menu
 	SV_SaveSpawnparms ();
-	q_strlcpy (level, Cmd_Argv(1), sizeof(level));
+	if (host_loopmap.value)
+		q_strlcpy (level, cl.mapname, sizeof(level));
+	else
+		q_strlcpy (level, Cmd_Argv(1), sizeof(level));
 	SV_SpawnServer (level);
 	// also issue an error if spawn failed -- O.S.
 	if (!sv.active)
@@ -2343,5 +2351,7 @@ void Host_InitCommands (void)
 	Cmd_AddCommand ("viewframe", Host_Viewframe_f);
 	Cmd_AddCommand ("viewnext", Host_Viewnext_f);
 	Cmd_AddCommand ("viewprev", Host_Viewprev_f);
+
+	Cvar_RegisterVariable(&host_loopmap);
 }
 

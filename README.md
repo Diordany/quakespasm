@@ -64,10 +64,10 @@ Here's an overview of custom CVars and commands that have been included in this 
 
 ### CVars
 
-| Name               | Description                                                           |
-|:-------------------|:----------------------------------------------------------------------|
-| ***con_printcmd*** | *Prints the names of commands that are being executed in realtime.*   |
-| ***host_loopmap*** | *Makes maps loop back on themselves whenever an exit is encountered.* |
+| Name               | Description                                                                                  |
+|:-------------------|:---------------------------------------------------------------------------------------------|
+| ***con_printcmd*** | *Prints the commands that are being executed in realtime.*                                   |
+| ***host_loopmap*** | *Makes maps loop back on themselves during exectution of the changelevel command (at exit).* |
 
 ### Commands
 

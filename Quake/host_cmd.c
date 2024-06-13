@@ -884,6 +884,12 @@ Goes to a new map, taking all clients along
 */
 static void Host_Changelevel_f (void)
 {
+	if (host_loopmap.value)
+	{
+		Host_Restart_f();
+		return;
+	}
+
 	if (host_intruder.value)
 	{
 		Host_Map_f();
@@ -903,11 +909,8 @@ static void Host_Changelevel_f (void)
 		return;
 	}
 
-	if (host_loopmap.value)
-		q_snprintf (level, sizeof(cl.mapname), "maps/%s.bsp", cl.mapname);
-	else
-		q_snprintf (level, sizeof(level), "maps/%s.bsp", Cmd_Argv(1));
 	//johnfitz -- check for client having map before anything else
+	q_snprintf (level, sizeof(level), "maps/%s.bsp", Cmd_Argv(1));
 	if (!COM_FileExists(level, NULL))
 		Host_Error ("cannot find map %s", level);
 	//johnfitz
@@ -916,10 +919,7 @@ static void Host_Changelevel_f (void)
 		IN_Activate();	// -- S.A.
 	key_dest = key_game;	// remove console or menu
 	SV_SaveSpawnparms ();
-	if (host_loopmap.value)
-		q_strlcpy (level, cl.mapname, sizeof(level));
-	else
-		q_strlcpy (level, Cmd_Argv(1), sizeof(level));
+	q_strlcpy (level, Cmd_Argv(1), sizeof(level));
 	SV_SpawnServer (level);
 	// also issue an error if spawn failed -- O.S.
 	if (!sv.active)
@@ -933,7 +933,7 @@ Host_Restart_f
 Restarts the current server for a dead player
 ==================
 */
-static void Host_Restart_f (void)
+void Host_Restart_f (void)
 {
 	char	mapname[MAX_QPATH];
 

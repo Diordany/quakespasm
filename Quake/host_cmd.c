@@ -28,6 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern cvar_t	pausable;
 
+cvar_t	host_intruder = {"host_intruder", "0", CVAR_NONE};
 cvar_t	host_loopmap = {"host_loopmap", "0", CVAR_NONE};
 
 int	current_skill;
@@ -883,6 +884,12 @@ Goes to a new map, taking all clients along
 */
 static void Host_Changelevel_f (void)
 {
+  if (host_intruder.value)
+  {
+    Host_Map_f();
+    return;
+  }
+
 	char	level[MAX_QPATH];
 
 	if (Cmd_Argc() != 2)
@@ -2352,6 +2359,7 @@ void Host_InitCommands (void)
 	Cmd_AddCommand ("viewnext", Host_Viewnext_f);
 	Cmd_AddCommand ("viewprev", Host_Viewprev_f);
 
+	Cvar_RegisterVariable(&host_intruder);
 	Cvar_RegisterVariable(&host_loopmap);
 }
 

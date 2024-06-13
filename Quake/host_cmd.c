@@ -884,11 +884,11 @@ Goes to a new map, taking all clients along
 */
 static void Host_Changelevel_f (void)
 {
-  if (host_intruder.value)
-  {
-    Host_Map_f();
-    return;
-  }
+	if (host_intruder.value)
+	{
+		Host_Map_f();
+		return;
+	}
 
 	char	level[MAX_QPATH];
 

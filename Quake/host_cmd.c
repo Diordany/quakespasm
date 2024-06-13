@@ -896,11 +896,11 @@ static void Host_Changelevel_f (void)
 		return;
 	}
 
-	//johnfitz -- check for client having map before anything else
 	if (host_loopmap.value)
 		q_snprintf (level, sizeof(cl.mapname), "maps/%s.bsp", cl.mapname);
 	else
 		q_snprintf (level, sizeof(level), "maps/%s.bsp", Cmd_Argv(1));
+	//johnfitz -- check for client having map before anything else
 	if (!COM_FileExists(level, NULL))
 		Host_Error ("cannot find map %s", level);
 	//johnfitz

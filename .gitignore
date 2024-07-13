@@ -1,8 +1,15 @@
-.vscode
+/.vscode
 
-Quake/*.d
-Quake/*.o
+/Windows/VisualStudio/.vs/
+/Windows/VisualStudio/Build-*/
 
-Quake/quakespasm
+/Windows/VisualStudio/quakespasm.vcxproj.user
+
+/Quake/*.d
+/Quake/*.exe
+/Quake/*.o
+/Quake/*.res
+
+/Quake/quakespasm
 
 history.txt

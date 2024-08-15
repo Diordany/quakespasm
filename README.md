@@ -67,8 +67,8 @@ Here's an overview of custom CVars and commands that have been included in this 
 | Name                | Description                                                                                  |
 |:--------------------|:---------------------------------------------------------------------------------------------|
 | ***con_printcmd***  | *Prints the commands that are being executed in realtime.*                                   |
-| ***host_intruder*** | *Resets the player inventory on every level. This is inspired by Dusk's intruder mode.*      |
-| ***host_loopmap***  | *Makes maps loop back on themselves during exectution of the changelevel command (at exit).* |
+| ***host_intruder*** | *Resets the player inventory on every level (more specifically it uses the `map` command instead of `changelevel` to switch levels). This is inspired by Dusk's intruder mode.*      |
+| ***host_loopmap***  | *Makes maps loop back on themselves (uses restart) during exectution of the changelevel command (at exit).* |
 
 ### Commands
 

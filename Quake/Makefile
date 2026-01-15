@@ -37,7 +37,7 @@ check_gcc = $(shell if echo | $(CC) $(1) -Werror -S -o /dev/null -xc - > /dev/nu
 
 HOST_OS = $(shell uname|sed -e s/_.*//|tr '[:upper:]' '[:lower:]')
 
-DEBUG ?= 0
+DEBUG ?= 1
 
 # ---------------------------
 # build variables

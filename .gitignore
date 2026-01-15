@@ -1,0 +1,10 @@
+/.scripts/
+/.vscode/
+
+/Quake/*.d
+/Quake/*.o
+/Quake/*.res
+
+/Quake/quakespasm
+
+history.txt

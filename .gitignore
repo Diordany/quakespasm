@@ -1,0 +1,8 @@
+/.vscode/
+/build/
+
+/history.txt
+/Quake/quakespasm
+
+*.o
+*.d

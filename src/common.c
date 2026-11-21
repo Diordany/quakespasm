@@ -1413,6 +1413,7 @@ void COM_InitArgv (int argc, char **argv)
 // reconstitute the command line for the cmdline externally visible cvar
 	n = 0;
 
+	// Diordany -- Read the arguments and generate the command line string to be stored in com_cmdline.
 	for (j = 0; (j<MAX_NUM_ARGVS) && (j< argc); j++)
 	{
 		i = 0;
@@ -1433,6 +1434,7 @@ void COM_InitArgv (int argc, char **argv)
 
 	Con_Printf("Command line: %s\n", com_cmdline);
 
+	// Diordany -- Copy the arguments to largv.
 	for (com_argc = 0; (com_argc < MAX_NUM_ARGVS) && (com_argc < argc); com_argc++)
 	{
 		largv[com_argc] = argv[com_argc];
@@ -1440,6 +1442,9 @@ void COM_InitArgv (int argc, char **argv)
 			safemode = 1;
 	}
 
+	// Diordany -- Probably to mark the end of largv. The com_argv is used to reference largv
+	// outside of common.c. I want to investigate if it's necessary to allow com_argv to point to
+	// a different array than largv.
 	largv[com_argc] = argvdummy;
 	com_argv = largv;
 

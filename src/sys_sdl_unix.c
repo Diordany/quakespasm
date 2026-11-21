@@ -396,6 +396,10 @@ static void Sys_GetBasedir (char *argv0, char *dst, size_t dstsize)
 		Sys_Error ("Couldn't determine current directory");
 
 	tmp = dst;
+
+	// Diordany -- Scans to the end of the working directory string and removes trailing slashes.
+	// I don't like that the loop does not check whether or not the pointer is still within the bounds
+	// of the string. I'll have to investigate this further at a later time.
 	while (*tmp != 0)
 		tmp++;
 	while (*tmp == 0 && tmp != dst)

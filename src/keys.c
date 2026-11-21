@@ -3,6 +3,7 @@ Copyright (C) 1996-2001 Id Software, Inc.
 Copyright (C) 2002-2009 John Fitzgibbons and others
 Copyright (C) 2007-2008 Kristian Duske
 Copyright (C) 2010-2014 QuakeSpasm developers
+Copyright (C) 2026 Diordany van Hemert
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -766,7 +767,7 @@ void History_Init (void)
 	}
 	key_linepos = 1;
 
-	hf = fopen(va("%s/%s", host_parms->userdir, HISTORY_FILE_NAME), "rt");
+	hf = fopen(va("%s/%s", host_parms.userdir, HISTORY_FILE_NAME), "rt");
 	if (hf != NULL)
 	{
 		do
@@ -803,7 +804,7 @@ void History_Shutdown (void)
 	int i;
 	FILE *hf;
 
-	hf = fopen(va("%s/%s", host_parms->userdir, HISTORY_FILE_NAME), "wt");
+	hf = fopen(va("%s/%s", host_parms.userdir, HISTORY_FILE_NAME), "wt");
 	if (hf != NULL)
 	{
 		i = edit_line;

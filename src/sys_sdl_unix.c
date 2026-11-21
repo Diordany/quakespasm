@@ -3,6 +3,7 @@ Copyright (C) 1996-2001 Id Software, Inc.
 Copyright (C) 2002-2005 John Fitzgibbons and others
 Copyright (C) 2007-2008 Kristian Duske
 Copyright (C) 2010-2014 QuakeSpasm developers
+Copyright (C) 2026 Diordany van Hemert
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -421,18 +422,18 @@ void Sys_Init (void)
 		Sys_Printf("Terminal input not available.\n");
 
 	memset (cwd, 0, sizeof(cwd));
-	Sys_GetBasedir(host_parms->argv[0], cwd, sizeof(cwd));
-	host_parms->basedir = cwd;
+	Sys_GetBasedir(host_parms.argv[0], cwd, sizeof(cwd));
+	host_parms.basedir = cwd;
 #ifndef DO_USERDIRS
-	host_parms->userdir = host_parms->basedir; /* code elsewhere relies on this ! */
+	host_parms.userdir = host_parms.basedir; /* code elsewhere relies on this ! */
 #else
 	memset (userdir, 0, sizeof(userdir));
-	Sys_GetUserdir (host_parms->argc, host_parms->argv, userdir, sizeof(userdir));
+	Sys_GetUserdir (host_parms.argc, host_parms.argv, userdir, sizeof(userdir));
 	Sys_mkdir (userdir);
-	host_parms->userdir = userdir;
+	host_parms.userdir = userdir;
 #endif
-	host_parms->numcpus = Sys_NumCPUs ();
-	Sys_Printf("Detected %d CPUs.\n", host_parms->numcpus);
+	host_parms.numcpus = Sys_NumCPUs ();
+	Sys_Printf("Detected %d CPUs.\n", host_parms.numcpus);
 }
 
 void Sys_mkdir (const char *path)
@@ -459,7 +460,7 @@ void Sys_Error (const char *error, ...)
 	va_list		argptr;
 	char		text[1024];
 
-	host_parms->errstate++;
+	host_parms.errstate++;
 
 	va_start (argptr, error);
 	q_vsnprintf (text, sizeof(text), error, argptr);

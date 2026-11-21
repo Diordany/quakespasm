@@ -3,6 +3,7 @@ Copyright (C) 1996-2001 Id Software, Inc.
 Copyright (C) 2002-2005 John Fitzgibbons and others
 Copyright (C) 2007-2008 Kristian Duske
 Copyright (C) 2010-2014 QuakeSpasm developers
+Copyright (C) 2026 Diordany van Hemert
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -309,10 +310,10 @@ void IN_StartupJoystick (void)
 	if (nummappings > 0)
 		Con_Printf("%d mappings loaded from gamecontrollerdb.txt\n", nummappings);
 	
-	// Also try host_parms->userdir
-	if (host_parms->userdir != host_parms->basedir)
+	// Also try host_parms.userdir
+	if (host_parms.userdir != host_parms.basedir)
 	{
-		q_snprintf (controllerdb, sizeof(controllerdb), "%s/gamecontrollerdb.txt", host_parms->userdir);
+		q_snprintf (controllerdb, sizeof(controllerdb), "%s/gamecontrollerdb.txt", host_parms.userdir);
 		nummappings = SDL_GameControllerAddMappingsFromFile(controllerdb);
 		if (nummappings > 0)
 			Con_Printf("%d mappings loaded from gamecontrollerdb.txt\n", nummappings);
@@ -849,7 +850,7 @@ static inline int IN_SDL_KeysymToQuakeKey(SDLKey sym)
 	case SDLK_BREAK: return K_PAUSE;
 	case SDLK_PAUSE: return K_PAUSE;
 
-	case SDLK_WORLD_18: return '~'; // the '²' key
+	case SDLK_WORLD_18: return '~'; // the 'ï¿½' key
 
 	default: return 0;
 	}

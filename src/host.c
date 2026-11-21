@@ -3,6 +3,7 @@ Copyright (C) 1996-2001 Id Software, Inc.
 Copyright (C) 2002-2009 John Fitzgibbons and others
 Copyright (C) 2007-2008 Kristian Duske
 Copyright (C) 2010-2014 QuakeSpasm developers
+Copyright (C) 2026 Diordany van Hemert
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -37,7 +38,7 @@ Memory is cleared / released when a server or client begins, not when they end.
 
 */
 
-quakeparms_t *host_parms;
+quakeparms_t host_parms;
 
 qboolean	host_initialized;		// true if into command execution
 
@@ -310,7 +311,7 @@ void Host_WriteConfiguration (void)
 
 // dedicated servers initialize the host but don't parse and set the
 // config.cfg cvars
-	if (host_initialized && !isDedicated && !host_parms->errstate)
+	if (host_initialized && !isDedicated && !host_parms.errstate)
 	{
 		f = fopen (va("%s/config.cfg", com_gamedir), "w");
 		if (!f)
@@ -823,18 +824,18 @@ void Host_Init (void)
 	else	minimum_memory = MINIMUM_MEMORY_LEVELPAK;
 
 	if (COM_CheckParm ("-minmemory"))
-		host_parms->memsize = minimum_memory;
+		host_parms.memsize = minimum_memory;
 
-	if (host_parms->memsize < minimum_memory)
-		Sys_Error ("Only %4.1f megs of memory available, can't execute game", host_parms->memsize / (float)0x100000);
+	if (host_parms.memsize < minimum_memory)
+		Sys_Error ("Only %4.1f megs of memory available, can't execute game", host_parms.memsize / (float)0x100000);
 
-	com_argc = host_parms->argc;
-	com_argv = host_parms->argv;
+	com_argc = host_parms.argc;
+	com_argv = host_parms.argv;
 
-	Memory_Init (host_parms->membase, host_parms->memsize);
+	Memory_Init (host_parms.membase, host_parms.memsize);
 	Cbuf_Init ();
 	Cmd_Init ();
-	LOG_Init (host_parms);
+	LOG_Init ();
 	Cvar_Init (); //johnfitz
 	COM_Init ();
 	COM_InitFilesystem ();
@@ -851,7 +852,7 @@ void Host_Init (void)
 	SV_Init ();
 
 	Con_Printf ("Exe: " __TIME__ " " __DATE__ "\n");
-	Con_Printf ("%4.1f megabyte heap\n", host_parms->memsize/ (1024*1024.0));
+	Con_Printf ("%4.1f megabyte heap\n", host_parms.memsize/ (1024*1024.0));
 
 	if (cls.state != ca_dedicated)
 	{

@@ -3,6 +3,7 @@ Copyright (C) 1996-2001 Id Software, Inc.
 Copyright (C) 2002-2005 John Fitzgibbons and others
 Copyright (C) 2007-2008 Kristian Duske
 Copyright (C) 2010-2014 QuakeSpasm developers
+Copyright (C) 2026 Diordany van Hemert
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -61,8 +62,6 @@ static void Sys_InitSDL (void)
 
 #define DEFAULT_MEMORY (384 * 1024 * 1024) // ericw -- was 72MB (64-bit) / 64MB (32-bit)
 
-static quakeparms_t	parms;
-
 // On OS X we call SDL_main from the launcher, but SDL2 doesn't redefine main
 // as SDL_main on OS X anymore, so we do it ourselves.
 #if defined(USE_SDL2) && defined(__APPLE__)
@@ -77,15 +76,14 @@ int main(int argc, char *argv[])
 	int		t;
 	double		time, oldtime, newtime;
 
-	host_parms = &parms;
-	parms.basedir = ".";
+	host_parms.basedir = ".";
 
-	parms.argc = argc;
-	parms.argv = argv;
+	host_parms.argc = argc;
+	host_parms.argv = argv;
 
-	parms.errstate = 0;
+	host_parms.errstate = 0;
 
-	COM_InitArgv(parms.argc, parms.argv);
+	COM_InitArgv(host_parms.argc, host_parms.argv);
 
 	isDedicated = (COM_CheckParm("-dedicated") != 0);
 
@@ -95,17 +93,17 @@ int main(int argc, char *argv[])
 
 	Sys_Printf("Initializing QuakeSpasm v%s\n", QUAKESPASM_VER_STRING);
 
-	parms.memsize = DEFAULT_MEMORY;
+	host_parms.memsize = DEFAULT_MEMORY;
 	if (COM_CheckParm("-heapsize"))
 	{
 		t = COM_CheckParm("-heapsize") + 1;
 		if (t < com_argc)
-			parms.memsize = Q_atoi(com_argv[t]) * 1024;
+			host_parms.memsize = Q_atoi(com_argv[t]) * 1024;
 	}
 
-	parms.membase = malloc (parms.memsize);
+	host_parms.membase = malloc (host_parms.memsize);
 
-	if (!parms.membase)
+	if (!host_parms.membase)
 		Sys_Error ("Not enough memory free; check disk space\n");
 
 	Sys_Printf("Host_Init\n");

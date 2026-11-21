@@ -2,6 +2,7 @@
 Copyright (C) 1996-2001 Id Software, Inc.
 Copyright (C) 2002-2009 John Fitzgibbons and others
 Copyright (C) 2010-2014 QuakeSpasm developers
+Copyright (C) 2026 Diordany van Hemert
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -2245,7 +2246,7 @@ _add_path:
 			qspak = NULL;
 		else {
 			qboolean old = com_modified;
-			if (been_here) base = host_parms->userdir;
+			if (been_here) base = host_parms.userdir;
 			q_snprintf (pakfile, sizeof(pakfile), "%s/quakespasm.pak", base);
 			qspak = COM_LoadPackFile (pakfile);
 			com_modified = old;
@@ -2267,10 +2268,10 @@ _add_path:
 		if (!pak) break;
 	}
 
-	if (!been_here && host_parms->userdir != host_parms->basedir)
+	if (!been_here && host_parms.userdir != host_parms.basedir)
 	{
 		been_here = true;
-		q_strlcpy(com_gamedir, va("%s/%s", host_parms->userdir, dir), sizeof(com_gamedir));
+		q_strlcpy(com_gamedir, va("%s/%s", host_parms.userdir, dir), sizeof(com_gamedir));
 		Sys_mkdir(com_gamedir);
 		goto _add_path;
 	}
@@ -2313,7 +2314,7 @@ static void COM_Game_f (void)
 
 		if (Sys_FileType(va("%s/%s", com_basedir, p)) != FS_ENT_DIRECTORY)
 		{
-			if (host_parms->userdir == host_parms->basedir || (Sys_FileType(va("%s/%s", host_parms->userdir, p)) != FS_ENT_DIRECTORY))
+			if (host_parms.userdir == host_parms.basedir || (Sys_FileType(va("%s/%s", host_parms.userdir, p)) != FS_ENT_DIRECTORY))
 			{
 				Con_Printf ("No such game directory \"%s\"\n", p);
 				return;
@@ -2394,8 +2395,8 @@ static void COM_Game_f (void)
 		else // just update com_gamedir
 		{
 			q_snprintf (com_gamedir, sizeof(com_gamedir), "%s/%s",
-					(host_parms->userdir != host_parms->basedir)?
-						   host_parms->userdir : com_basedir,
+					(host_parms.userdir != host_parms.basedir)?
+						   host_parms.userdir : com_basedir,
 					GAMENAME);
 		}
 
@@ -2443,7 +2444,7 @@ void COM_InitFilesystem (void) //johnfitz -- modified based on topaz's tutorial
 	if (i && i < com_argc-1)
 		q_strlcpy (com_basedir, com_argv[i + 1], sizeof(com_basedir));
 	else
-		q_strlcpy (com_basedir, host_parms->basedir, sizeof(com_basedir));
+		q_strlcpy (com_basedir, host_parms.basedir, sizeof(com_basedir));
 
 	j = strlen (com_basedir);
 	if (j < 1) Sys_Error("Bad argument to -basedir");
@@ -2767,7 +2768,7 @@ void LOC_LoadFile (const char *file)
 	rw = SDL_RWFromFile(path, "rb");
 	#if defined(DO_USERDIRS)
 	if (!rw) {
-		q_snprintf(path, sizeof(path), "%s/%s", host_parms->userdir, file);
+		q_snprintf(path, sizeof(path), "%s/%s", host_parms.userdir, file);
 		rw = SDL_RWFromFile(path, "rb");
 	}
 	#endif
@@ -2777,7 +2778,7 @@ void LOC_LoadFile (const char *file)
 		rw = SDL_RWFromFile(path, "rb");
 		#if defined(DO_USERDIRS)
 		if (!rw) {
-			q_snprintf(path, sizeof(path), "%s/QuakeEX.kpf", host_parms->userdir);
+			q_snprintf(path, sizeof(path), "%s/QuakeEX.kpf", host_parms.userdir);
 			rw = SDL_RWFromFile(path, "rb");
 		}
 		#endif

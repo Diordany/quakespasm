@@ -3,6 +3,7 @@ Copyright (C) 1996-2001 Id Software, Inc.
 Copyright (C) 2002-2009 John Fitzgibbons and others
 Copyright (C) 2007-2008 Kristian Duske
 Copyright (C) 2010-2014 QuakeSpasm developers
+Copyright (C) 2026 Diordany van Hemert
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -1381,7 +1382,7 @@ static void GL_Init (void)
 #ifdef __APPLE__
 	// ericw -- enable multi-threaded OpenGL, gives a decent FPS boost.
 	// https://developer.apple.com/library/mac/technotes/tn2085/
-	if (host_parms->numcpus > 1 &&
+	if (host_parms.numcpus > 1 &&
 	    kCGLNoError != CGLEnable(CGLGetCurrentContext(), kCGLCEMPEngine))
 	{
 		Con_Warning ("Couldn't enable multi-threaded OpenGL");

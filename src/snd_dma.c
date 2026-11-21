@@ -4,6 +4,7 @@ Copyright (C) 2002-2009 John Fitzgibbons and others
 Copyright (C) 2007-2008 Kristian Duske
 Copyright (C) 2010-2011 O. Sezer <sezero@users.sourceforge.net>
 Copyright (C) 2010-2014 QuakeSpasm developers
+Copyright (C) 2026 Diordany van Hemert
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -204,7 +205,7 @@ void S_Init (void)
 		Cvar_SetQuick (&snd_mixspeed, com_argv[i + 1]);
 	}
 
-	if (host_parms->memsize < 0x800000)
+	if (host_parms.memsize < 0x800000)
 	{
 		Cvar_SetQuick (&loadas8bit, "1");
 		Con_Printf ("loading all sounds as 8bit\n");

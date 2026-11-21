@@ -2,6 +2,7 @@
 Copyright (C) 1996-2001 Id Software, Inc.
 Copyright (C) 2002-2009 John Fitzgibbons and others
 Copyright (C) 2010-2014 QuakeSpasm developers
+Copyright (C) 2026 Diordany van Hemert
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -61,7 +62,7 @@ void Con_LogCenterPrint (const char *str);
 //
 // debuglog
 //
-void LOG_Init (quakeparms_t *parms);
+void LOG_Init (void);
 void LOG_Close (void);
 void Con_DebugLog (const char *msg);
 

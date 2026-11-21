@@ -19,23 +19,16 @@ See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 */
 
-#include "quakedef.h"
-#if defined(SDL_FRAMEWORK) || defined(NO_SDL_CONFIG)
-#if defined(USE_SDL2)
-#include <SDL2/SDL.h>
-#else
-#include <SDL/SDL.h>
-#endif
-#else
-#include "SDL.h"
-#endif
+// C headers.
 #include <stdio.h>
-#ifdef __EMSCRIPTEN__
-#include <gl4esinit.h>
-#endif
+
+// SDL headers.
+#include <SDL2/SDL.h>
+
+// Quake headers.
+#include "quakedef.h"
 
 static void Sys_AtExit (void)
 {
@@ -44,13 +37,9 @@ static void Sys_AtExit (void)
 
 static void Sys_InitSDL (void)
 {
-#if defined(USE_SDL2)
 	SDL_version v;
 	SDL_version *sdl_version = &v;
 	SDL_GetVersion(&v);
-#else
-	const SDL_version *sdl_version = SDL_Linked_Version();
-#endif
 
 	Sys_Printf("Found SDL version %i.%i.%i\n",sdl_version->major,sdl_version->minor,sdl_version->patch);
 
@@ -62,17 +51,8 @@ static void Sys_InitSDL (void)
 
 #define DEFAULT_MEMORY (384 * 1024 * 1024) // ericw -- was 72MB (64-bit) / 64MB (32-bit)
 
-// On OS X we call SDL_main from the launcher, but SDL2 doesn't redefine main
-// as SDL_main on OS X anymore, so we do it ourselves.
-#if defined(USE_SDL2) && defined(__APPLE__)
-#define main SDL_main
-#endif
-
 int main(int argc, char *argv[])
 {
-#ifdef __EMSCRIPTEN__
-	initialize_gl4es();
-#endif
 	int		t;
 	double		time, oldtime, newtime;
 

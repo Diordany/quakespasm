@@ -333,66 +333,10 @@ static void Sys_GetUserdir (int argc, char **argv, char *dst, size_t dstsize)
 #endif	/* PLATFORM_HAIKU */
 #endif	/* DO_USERDIRS */
 
-#ifdef PLATFORM_OSX
-static char *OSX_StripAppBundle (char *dir)
-{ /* based on the ioquake3 project at icculus.org. */
-	static char	osx_path[MAX_OSPATH];
-
-	q_strlcpy (osx_path, dir, sizeof(osx_path));
-	if (strcmp(basename(osx_path), "MacOS"))
-		return dir;
-	q_strlcpy (osx_path, dirname(osx_path), sizeof(osx_path));
-	if (strcmp(basename(osx_path), "Contents"))
-		return dir;
-	q_strlcpy (osx_path, dirname(osx_path), sizeof(osx_path));
-	if (!strstr(basename(osx_path), ".app"))
-		return dir;
-	q_strlcpy (osx_path, dirname(osx_path), sizeof(osx_path));
-	return osx_path;
-}
-
-static void Sys_GetBasedir (char *argv0, char *dst, size_t dstsize)
+static void Sys_GetBasedir (char *dst, size_t dstsize)
 {
 	char	*tmp;
 
-	if (realpath(argv0, dst) == NULL)
-	{
-		perror("realpath");
-		if (getcwd(dst, dstsize - 1) == NULL)
-	_fail:		Sys_Error ("Couldn't determine current directory");
-	}
-	else
-	{
-		/* strip off the binary name */
-		if (! (tmp = strdup (dst))) goto _fail;
-		q_strlcpy (dst, dirname(tmp), dstsize);
-		free (tmp);
-	}
-
-	tmp = OSX_StripAppBundle(dst);
-	if (tmp != dst)
-		q_strlcpy (dst, tmp, dstsize);
-}
-#else
-static void Sys_GetBasedir (char *argv0, char *dst, size_t dstsize)
-{
-	char	*tmp;
-
-	#ifdef PLATFORM_HAIKU
-	if (realpath(argv0, dst) == NULL)
-	{
-		perror("realpath");
-		if (getcwd(dst, dstsize - 1) == NULL)
-	_fail:		Sys_Error ("Couldn't determine current directory");
-	}
-	else
-	{
-		/* strip off the binary name */
-		if (! (tmp = strdup (dst))) goto _fail;
-		q_strlcpy (dst, dirname(tmp), dstsize);
-		free (tmp);
-	}
-	#else
 	if (getcwd(dst, dstsize - 1) == NULL)
 		Sys_Error ("Couldn't determine current directory");
 
@@ -409,9 +353,7 @@ static void Sys_GetBasedir (char *argv0, char *dst, size_t dstsize)
 		if (tmp != dst && *tmp == '/')
 			*tmp = 0;
 	}
-	#endif
 }
-#endif
 
 void Sys_Init (void)
 {
@@ -422,7 +364,7 @@ void Sys_Init (void)
 		Sys_Printf("Terminal input not available.\n");
 
 	memset (cwd, 0, sizeof(cwd));
-	Sys_GetBasedir(host_parms.argv[0], cwd, sizeof(cwd));
+	Sys_GetBasedir(cwd, sizeof(cwd));
 	host_parms.basedir = cwd;
 #ifndef DO_USERDIRS
 	host_parms.userdir = host_parms.basedir; /* code elsewhere relies on this ! */

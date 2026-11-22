@@ -29,9 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "miniz.h"
 
-static char	*largv[MAX_NUM_ARGVS + 1];
-static char	argvdummy[] = " ";
-
 int		safemode;
 
 cvar_t	registered = {"registered","1",CVAR_ROM}; /* set to correct value in COM_CheckRegistered() */
@@ -1411,17 +1408,20 @@ void COM_InitArgv (int argc, char **argv)
 {
 	int		i, j, n;
 
+	com_argc = argc;
+	com_argv = argv;
+
 // reconstitute the command line for the cmdline externally visible cvar
 	n = 0;
 
 	// Diordany -- Read the arguments and generate the command line string to be stored in com_cmdline.
-	for (j = 0; (j<MAX_NUM_ARGVS) && (j< argc); j++)
+	for (j = 0; j < com_argc; j++)
 	{
 		i = 0;
 
-		while ((n < (CMDLINE_LENGTH - 1)) && argv[j][i])
+		while ((n < (CMDLINE_LENGTH - 1)) && com_argv[j][i])
 		{
-			com_cmdline[n++] = argv[j][i++];
+			com_cmdline[n++] = com_argv[j][i++];
 		}
 
 		if (n < (CMDLINE_LENGTH - 1))
@@ -1434,20 +1434,6 @@ void COM_InitArgv (int argc, char **argv)
 		com_cmdline[n-1] = 0; //johnfitz -- kill the trailing space
 
 	Con_Printf("Command line: %s\n", com_cmdline);
-
-	// Diordany -- Copy the arguments to largv.
-	for (com_argc = 0; (com_argc < MAX_NUM_ARGVS) && (com_argc < argc); com_argc++)
-	{
-		largv[com_argc] = argv[com_argc];
-		if (!Q_strcmp ("-safe", argv[com_argc]))
-			safemode = 1;
-	}
-
-	// Diordany -- Probably to mark the end of largv. The com_argv is used to reference largv
-	// outside of common.c. I want to investigate if it's necessary to allow com_argv to point to
-	// a different array than largv.
-	largv[com_argc] = argvdummy;
-	com_argv = largv;
 
 	if (COM_CheckParm ("-rogue"))
 	{

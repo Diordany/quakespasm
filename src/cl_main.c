@@ -2,6 +2,7 @@
 Copyright (C) 1996-2001 Id Software, Inc.
 Copyright (C) 2002-2009 John Fitzgibbons and others
 Copyright (C) 2010-2014 QuakeSpasm developers
+Copyright (C) 2026 Diordany van Hemert
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -109,7 +110,6 @@ void CL_Disconnect (void)
 // stop sounds (especially looping!)
 	S_StopAllSounds (true);
 	BGM_Stop();
-	CDAudio_Stop();
 
 // if running a local server, shut it down
 	if (cls.demoplayback)

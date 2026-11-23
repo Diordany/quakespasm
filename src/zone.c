@@ -2,6 +2,7 @@
 Copyright (C) 1996-2001 Id Software, Inc.
 Copyright (C) 2002-2009 John Fitzgibbons and others
 Copyright (C) 2010-2014 QuakeSpasm developers
+Copyright (C) 2026 Diordany van Hemert
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -982,8 +983,8 @@ void Memory_Init (void *buf, int size)
 	p = COM_CheckParm ("-zone");
 	if (p)
 	{
-		if (p < com_argc-1)
-			zonesize = Q_atoi (com_argv[p+1]) * 1024;
+		if (p < host_parms.argc-1)
+			zonesize = Q_atoi (host_parms.argv[p+1]) * 1024;
 		else
 			Sys_Error ("Memory_Init: you must specify a size in KB after -zone");
 	}

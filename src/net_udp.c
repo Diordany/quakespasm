@@ -2,6 +2,7 @@
 Copyright (C) 1996-2001 Id Software, Inc.
 Copyright (C) 2007-2008 Kristian Duske
 Copyright (C) 2010-2014 QuakeSpasm developers
+Copyright (C) 2026 Diordany van Hemert
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -84,12 +85,12 @@ sys_socket_t UDP_Init (void)
 			i = COM_CheckParm ("-ip");
 			if (i)
 			{
-				if (i < com_argc-1)
+				if (i < host_parms.argc-1)
 				{
-					myAddr = inet_addr(com_argv[i + 1]);
+					myAddr = inet_addr(host_parms.argv[i + 1]);
 					if (myAddr == INADDR_NONE)
-						Sys_Error ("%s is not a valid IP address", com_argv[i + 1]);
-					strcpy(my_tcpip_address, com_argv[i + 1]);
+						Sys_Error ("%s is not a valid IP address", host_parms.argv[i + 1]);
+					strcpy(my_tcpip_address, host_parms.argv[i + 1]);
 				}
 				else
 				{

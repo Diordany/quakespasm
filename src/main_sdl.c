@@ -77,8 +77,8 @@ int main(int argc, char *argv[])
 	if (COM_CheckParm("-heapsize"))
 	{
 		t = COM_CheckParm("-heapsize") + 1;
-		if (t < com_argc)
-			host_parms.memsize = Q_atoi(com_argv[t]) * 1024;
+		if (t < host_parms.argc)
+			host_parms.memsize = Q_atoi(host_parms.argv[t]) * 1024;
 	}
 
 	host_parms.membase = malloc (host_parms.memsize);

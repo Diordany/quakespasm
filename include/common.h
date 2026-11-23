@@ -2,6 +2,7 @@
 Copyright (C) 1996-2001 Id Software, Inc.
 Copyright (C) 2002-2009 John Fitzgibbons and others
 Copyright (C) 2010-2014 QuakeSpasm developers
+Copyright (C) 2026 Diordany van Hemert
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -255,9 +256,6 @@ const char *COM_ParseEx (const char *data, cpe_mode mode);
 int COM_WordLength (const char *text);
 int COM_AdvanceLineWrapped (const char **text, int maxchars);
 void COM_WordWrap (char *dst, const char *src, size_t dstsize, int maxcols);
-
-extern	int		com_argc;
-extern	char	**com_argv;
 
 extern	int		safemode;
 /* safe mode: in true, the engine will behave as if one

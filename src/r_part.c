@@ -3,6 +3,7 @@ Copyright (C) 1996-2001 Id Software, Inc.
 Copyright (C) 2002-2009 John Fitzgibbons and others
 Copyright (C) 2007-2008 Kristian Duske
 Copyright (C) 2010-2014 QuakeSpasm developers
+Copyright (C) 2026 Diordany van Hemert
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -150,9 +151,9 @@ void R_InitParticles (void)
 
 	i = COM_CheckParm ("-particles");
 
-	if (i && i < com_argc - 1)
+	if (i && i < host_parms.argc - 1)
 	{
-		r_numparticles = atoi(com_argv[i + 1]);
+		r_numparticles = atoi(host_parms.argv[i + 1]);
 		if (r_numparticles < ABSOLUTE_MIN_PARTICLES)
 			r_numparticles = ABSOLUTE_MIN_PARTICLES;
 		else if (r_numparticles > ABSOLUTE_MAX_PARTICLES)

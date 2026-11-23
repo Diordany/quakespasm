@@ -197,9 +197,9 @@ void	Host_FindMaxClients (void)
 	if (i)
 	{
 		cls.state = ca_dedicated;
-		if (i != (com_argc - 1))
+		if (i != (host_parms.argc - 1))
 		{
-			svs.maxclients = Q_atoi (com_argv[i+1]);
+			svs.maxclients = Q_atoi (host_parms.argv[i+1]);
 		}
 		else
 			svs.maxclients = 8;
@@ -212,8 +212,8 @@ void	Host_FindMaxClients (void)
 	{
 		if (cls.state == ca_dedicated)
 			Sys_Error ("Only one of -dedicated or -listen can be specified");
-		if (i != (com_argc - 1))
-			svs.maxclients = Q_atoi (com_argv[i+1]);
+		if (i != (host_parms.argc - 1))
+			svs.maxclients = Q_atoi (host_parms.argv[i+1]);
 		else
 			svs.maxclients = 8;
 	}

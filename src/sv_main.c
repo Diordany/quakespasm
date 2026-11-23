@@ -2,6 +2,7 @@
 Copyright (C) 1996-2001 Id Software, Inc.
 Copyright (C) 2002-2009 John Fitzgibbons and others
 Copyright (C) 2010-2014 QuakeSpasm developers
+Copyright (C) 2026 Diordany van Hemert
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -114,8 +115,8 @@ void SV_Init (void)
 		sprintf (localmodels[i], "*%i", i);
 
 	i = COM_CheckParm ("-protocol");
-	if (i && i < com_argc - 1)
-		sv_protocol = atoi (com_argv[i + 1]);
+	if (i && i < host_parms.argc - 1)
+		sv_protocol = atoi (host_parms.argv[i + 1]);
 	switch (sv_protocol)
 	{
 	case PROTOCOL_NETQUAKE:

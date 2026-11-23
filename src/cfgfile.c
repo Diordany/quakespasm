@@ -1,23 +1,24 @@
 /*
- * cfgfile.c -- misc reads from the config file
- *
- * Copyright (C) 2008-2012  O.Sezer <sezero@users.sourceforge.net>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or (at
- * your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- *
- * See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- */
+cfgfile.c -- misc reads from the config file
+ 
+Copyright (C) 2008-2012  O.Sezer <sezero@users.sourceforge.net>
+Copyright (C) 2026 Diordany van Hemert
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+*/
 
 #include "quakedef.h"
 
@@ -123,6 +124,7 @@ void CFG_ReadCvarOverrides (const char **vars, int num_vars)
 	char	buff[64];
 	int		i, j;
 
+
 	if (num_vars < 1)
 		return;
 
@@ -132,10 +134,10 @@ void CFG_ReadCvarOverrides (const char **vars, int num_vars)
 	{
 		q_strlcpy (&buff[1], vars[i], sizeof(buff) - 1);
 		j = COM_CheckParm(buff);
-		if (j != 0 && j < com_argc - 1)
+		if (j != 0 && j < host_parms.argc - 1)
 		{
-			if (com_argv[j + 1][0] != '-' && com_argv[j + 1][0] != '+')
-				Cvar_Set(vars[i], com_argv[j + 1]);
+			if (host_parms.argv[j + 1][0] != '-' && host_parms.argv[j + 1][0] != '+')
+				Cvar_Set(vars[i], host_parms.argv[j + 1]);
 		}
 	}
 }

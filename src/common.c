@@ -50,8 +50,6 @@ static void COM_Path_f (void);
 #define PAK0_CRC_V091		28804	/* id1/pak0.pak - v0.91/0.92, not supported */
 
 char	com_token[1024];
-int		com_argc;
-char	**com_argv;
 
 #define CMDLINE_LENGTH	256		/* johnfitz -- mirrored in cmd.c */
 char	com_cmdline[CMDLINE_LENGTH];
@@ -1332,11 +1330,11 @@ int COM_CheckParm (const char *parm)
 {
 	int		i;
 
-	for (i = 1; i < com_argc; i++)
+	for (i = 1; i < host_parms.argc; i++)
 	{
-		if (!com_argv[i])
+		if (!host_parms.argv[i])
 			continue;		// NEXTSTEP sometimes clears appkit vars.
-		if (!Q_strcmp (parm,com_argv[i]))
+		if (!Q_strcmp (parm,host_parms.argv[i]))
 			return i;
 	}
 
@@ -1408,20 +1406,17 @@ void COM_InitArgv (int argc, char **argv)
 {
 	int		i, j, n;
 
-	com_argc = argc;
-	com_argv = argv;
-
 // reconstitute the command line for the cmdline externally visible cvar
 	n = 0;
 
 	// Diordany -- Read the arguments and generate the command line string to be stored in com_cmdline.
-	for (j = 0; j < com_argc; j++)
+	for (j = 0; j < host_parms.argc; j++)
 	{
 		i = 0;
 
-		while ((n < (CMDLINE_LENGTH - 1)) && com_argv[j][i])
+		while ((n < (CMDLINE_LENGTH - 1)) && host_parms.argv[j][i])
 		{
-			com_cmdline[n++] = com_argv[j][i++];
+			com_cmdline[n++] = host_parms.argv[j][i++];
 		}
 
 		if (n < (CMDLINE_LENGTH - 1))
@@ -2427,8 +2422,8 @@ void COM_InitFilesystem (void) //johnfitz -- modified based on topaz's tutorial
 	Cmd_AddCommand ("game", COM_Game_f); //johnfitz
 
 	i = COM_CheckParm ("-basedir");
-	if (i && i < com_argc-1)
-		q_strlcpy (com_basedir, com_argv[i + 1], sizeof(com_basedir));
+	if (i && i < host_parms.argc-1)
+		q_strlcpy (com_basedir, host_parms.argv[i + 1], sizeof(com_basedir));
 	else
 		q_strlcpy (com_basedir, host_parms.basedir, sizeof(com_basedir));
 
@@ -2455,9 +2450,9 @@ void COM_InitFilesystem (void) //johnfitz -- modified based on topaz's tutorial
 		COM_AddGameDirectory (com_basedir, "quoth");
 
 	i = COM_CheckParm ("-game");
-	if (i && i < com_argc-1)
+	if (i && i < host_parms.argc-1)
 	{
-		const char *p = com_argv[i + 1];
+		const char *p = host_parms.argv[i + 1];
 		if (!*p || !strcmp(p, ".") || strstr(p, "..") || strstr(p, "/") || strstr(p, "\\") || strstr(p, ":"))
 			Sys_Error ("gamedir should be a single directory name, not a path\n");
 		com_modified = true;

@@ -318,8 +318,8 @@ void Con_Init (void)
 
 	//johnfitz -- user settable console buffer size
 	i = COM_CheckParm("-consize");
-	if (i && i < com_argc-1) {
-		con_buffersize = Q_atoi(com_argv[i+1])*1024;
+	if (i && i < host_parms.argc-1) {
+		con_buffersize = Q_atoi(host_parms.argv[i+1])*1024;
 		if (con_buffersize < CON_MINSIZE)
 			con_buffersize = CON_MINSIZE;
 	}

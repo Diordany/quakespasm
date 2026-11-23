@@ -194,15 +194,15 @@ void S_Init (void)
 	Cmd_AddCommand("soundinfo", S_SoundInfo_f);
 
 	i = COM_CheckParm("-sndspeed");
-	if (i && i < com_argc-1)
+	if (i && i < host_parms.argc-1)
 	{
-		Cvar_SetQuick (&sndspeed, com_argv[i + 1]);
+		Cvar_SetQuick (&sndspeed, host_parms.argv[i + 1]);
 	}
 
 	i = COM_CheckParm("-mixspeed");
-	if (i && i < com_argc-1)
+	if (i && i < host_parms.argc-1)
 	{
-		Cvar_SetQuick (&snd_mixspeed, com_argv[i + 1]);
+		Cvar_SetQuick (&snd_mixspeed, host_parms.argv[i + 1]);
 	}
 
 	if (host_parms.memsize < 0x800000)

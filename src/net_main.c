@@ -1,6 +1,7 @@
 /*
 Copyright (C) 1996-2001 Id Software, Inc.
 Copyright (C) 2010-2014 QuakeSpasm developers
+Copyright (C) 2026 Diordany van Hemert
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -770,8 +771,8 @@ void NET_Init (void)
 
 	if (i)
 	{
-		if (i < com_argc-1)
-			DEFAULTnet_hostport = Q_atoi (com_argv[i+1]);
+		if (i < host_parms.argc-1)
+			DEFAULTnet_hostport = Q_atoi (host_parms.argv[i+1]);
 		else
 			Sys_Error ("NET_Init: you must specify a number after -port");
 	}

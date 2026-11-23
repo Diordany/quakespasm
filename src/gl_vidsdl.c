@@ -1721,30 +1721,30 @@ void	VID_Init (void)
 	else
 	{
 		p = COM_CheckParm("-width");
-		if (p && p < com_argc-1)
+		if (p && p < host_parms.argc-1)
 		{
-			width = Q_atoi(com_argv[p+1]);
+			width = Q_atoi(host_parms.argv[p+1]);
 
 			if(!COM_CheckParm("-height"))
 				height = width * 3 / 4;
 		}
 
 		p = COM_CheckParm("-height");
-		if (p && p < com_argc-1)
+		if (p && p < host_parms.argc-1)
 		{
-			height = Q_atoi(com_argv[p+1]);
+			height = Q_atoi(host_parms.argv[p+1]);
 
 			if(!COM_CheckParm("-width"))
 				width = height * 4 / 3;
 		}
 
 		p = COM_CheckParm("-refreshrate");
-		if (p && p < com_argc-1)
-			refreshrate = Q_atoi(com_argv[p+1]);
+		if (p && p < host_parms.argc-1)
+			refreshrate = Q_atoi(host_parms.argv[p+1]);
 
 		p = COM_CheckParm("-bpp");
-		if (p && p < com_argc-1)
-			bpp = Q_atoi(com_argv[p+1]);
+		if (p && p < host_parms.argc-1)
+			bpp = Q_atoi(host_parms.argv[p+1]);
 
 		if (COM_CheckParm("-window") || COM_CheckParm("-w"))
 			fullscreen = false;
@@ -1753,8 +1753,8 @@ void	VID_Init (void)
 	}
 
 	p = COM_CheckParm ("-fsaa");
-	if (p && p < com_argc-1)
-		fsaa = atoi(com_argv[p+1]);
+	if (p && p < host_parms.argc-1)
+		fsaa = atoi(host_parms.argv[p+1]);
 
 	if (!VID_ValidMode(width, height, refreshrate, bpp, fullscreen))
 	{

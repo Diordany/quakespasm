@@ -58,12 +58,9 @@ int main(int argc, char *argv[])
 
 	host_parms.basedir = ".";
 
-	host_parms.argc = argc;
-	host_parms.argv = argv;
-
 	host_parms.errstate = 0;
 
-	COM_InitArgv(host_parms.argc, host_parms.argv);
+	COM_InitArgv(argc, argv);
 
 	isDedicated = (COM_CheckParm("-dedicated") != 0);
 

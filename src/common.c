@@ -1406,6 +1406,9 @@ void COM_InitArgv (int argc, char **argv)
 {
 	int		i, j, n;
 
+	host_parms.argc = argc;
+	host_parms.argv = argv;
+
 // reconstitute the command line for the cmdline externally visible cvar
 	n = 0;
 

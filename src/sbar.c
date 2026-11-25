@@ -2,6 +2,7 @@
 Copyright (C) 1996-2001 Id Software, Inc.
 Copyright (C) 2002-2009 John Fitzgibbons and others
 Copyright (C) 2010-2014 QuakeSpasm developers
+Copyright (C) 2026 Diordany van Hemert
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -463,7 +464,6 @@ Sbar_SoloScoreboard -- johnfitz -- new layout
 void Sbar_SoloScoreboard (void)
 {
 	char	str[256];
-	int	minutes, seconds, tens, units;
 	int	left, right, len;
 
 	sprintf (str,"Kills: %i/%i", cl.stats[STAT_MONSTERS], cl.stats[STAT_TOTALMONSTERS]);
@@ -474,31 +474,15 @@ void Sbar_SoloScoreboard (void)
 	right = 312 - strlen (str) * 8;
 	Sbar_DrawString (right, 12, str);
 
-	if (!fitzmode)
-	{ /* QuakeSpasm customization: */
-		q_snprintf (str, sizeof(str), "skill %i", (int)(skill.value + 0.5));
-		Sbar_DrawString ((left + right) / 2 - strlen (str) * 4, 12, str);
+	q_snprintf (str, sizeof(str), "skill %i", (int)(skill.value + 0.5));
+	Sbar_DrawString ((left + right) / 2 - strlen (str) * 4, 12, str);
 
-		q_snprintf (str, sizeof(str), "%s (%s)", cl.levelname, cl.mapname);
-		len = strlen (str);
-		if (len > 40)
-			Sbar_DrawScrollString (0, 4, 320, str);
-		else
-			Sbar_DrawString (160 - len*4, 4, str);
-		return;
-	}
-	minutes = cl.time / 60;
-	seconds = cl.time - 60*minutes;
-	tens = seconds / 10;
-	units = seconds - 10*tens;
-	sprintf (str,"%i:%i%i", minutes, tens, units);
-	Sbar_DrawString (160 - strlen(str)*4, 12, str);
-
-	len = strlen (cl.levelname);
+	q_snprintf (str, sizeof(str), "%s (%s)", cl.levelname, cl.mapname);
+	len = strlen (str);
 	if (len > 40)
-		Sbar_DrawScrollString (0, 4, 320, cl.levelname);
+		Sbar_DrawScrollString (0, 4, 320, str);
 	else
-		Sbar_DrawString (160 - len*4, 4, cl.levelname);
+		Sbar_DrawString (160 - len*4, 4, str);
 }
 
 /*

@@ -36,8 +36,6 @@ cvar_t	cmdline = {"cmdline","",CVAR_ROM/*|CVAR_SERVERINFO*/}; /* sending cmdline
 
 static qboolean		com_modified;	// set true if using non-id files
 
-qboolean		fitzmode;
-
 static void COM_Path_f (void);
 
 // if a packfile directory differs from this, it is assumed to be hacked
@@ -1596,9 +1594,6 @@ void COM_Init (void)
 		BigFloat = FloatSwap;
 		LittleFloat = FloatNoSwap;
 	}
-
-	if (COM_CheckParm("-fitz"))
-		fitzmode = true;
 }
 
 

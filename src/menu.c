@@ -2,6 +2,7 @@
 Copyright (C) 1996-2001 Id Software, Inc.
 Copyright (C) 2002-2009 John Fitzgibbons and others
 Copyright (C) 2010-2014 QuakeSpasm developers
+Copyright (C) 2026 Diordany van Hemert
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -281,7 +282,7 @@ void M_Main_Key (int key)
 		key_dest = key_game;
 		m_state = m_none;
 		cls.demonum = m_save_demonum;
-		if (!fitzmode && !cl_startdemos.value)	/* QuakeSpasm customization: */
+		if (!cl_startdemos.value)	/* QuakeSpasm customization: */
 			break;
 		if (cls.demonum != -1 && !cls.demoplayback && cls.state != ca_connected)
 			CL_NextDemo ();
@@ -2638,12 +2639,6 @@ void M_Draw (void)
 		break;
 
 	case m_quit:
-		if (!fitzmode)
-		{ /* QuakeSpasm customization: */
-			/* Quit now! S.A. */
-			key_dest = key_console;
-			Host_Quit_f ();
-		}
 		M_Quit_Draw ();
 		break;
 

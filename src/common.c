@@ -2199,7 +2199,6 @@ static void COM_AddGameDirectory (const char *base, const char *dir)
 	searchpath_t *search;
 	pack_t *pak;
 	char pakfile[MAX_OSPATH];
-	qboolean been_here = false;
 
 	q_strlcpy (com_gamedir, va("%s/%s", base, dir), sizeof(com_gamedir));
 
@@ -2208,7 +2207,6 @@ static void COM_AddGameDirectory (const char *base, const char *dir)
 		path_id = com_searchpaths->path_id << 1;
 	else	path_id = 1U;
 
-_add_path:
 	// add the directory to the search path
 	search = (searchpath_t *) Z_Malloc(sizeof(searchpath_t));
 	search->path_id = path_id;
@@ -2229,14 +2227,6 @@ _add_path:
 			com_searchpaths = search;
 		}
 		else break;
-	}
-
-	if (!been_here && host_parms.userdir != host_parms.basedir)
-	{
-		been_here = true;
-		q_strlcpy(com_gamedir, va("%s/%s", host_parms.userdir, dir), sizeof(com_gamedir));
-		Sys_mkdir(com_gamedir);
-		goto _add_path;
 	}
 }
 
@@ -2277,11 +2267,8 @@ static void COM_Game_f (void)
 
 		if (Sys_FileType(va("%s/%s", com_basedir, p)) != FS_ENT_DIRECTORY)
 		{
-			if (host_parms.userdir == host_parms.basedir || (Sys_FileType(va("%s/%s", host_parms.userdir, p)) != FS_ENT_DIRECTORY))
-			{
-				Con_Printf ("No such game directory \"%s\"\n", p);
-				return;
-			}
+			Con_Printf ("No such game directory \"%s\"\n", p);
+			return;
 		}
 
 		if (!q_strcasecmp(p, COM_SkipPath(com_gamedir))) //no change
@@ -2357,10 +2344,7 @@ static void COM_Game_f (void)
 		}
 		else // just update com_gamedir
 		{
-			q_snprintf (com_gamedir, sizeof(com_gamedir), "%s/%s",
-					(host_parms.userdir != host_parms.basedir)?
-						   host_parms.userdir : com_basedir,
-					GAMENAME);
+			q_snprintf (com_gamedir, sizeof(com_gamedir), "%s/%s", com_basedir, GAMENAME);
 		}
 
 		//clear out and reload appropriate data
@@ -2729,22 +2713,11 @@ void LOC_LoadFile (const char *file)
 	memset(&archive, 0, sizeof(archive));
 	q_snprintf(path, sizeof(path), "%s/%s", com_basedir, file);
 	rw = SDL_RWFromFile(path, "rb");
-	#if defined(DO_USERDIRS)
-	if (!rw) {
-		q_snprintf(path, sizeof(path), "%s/%s", host_parms.userdir, file);
-		rw = SDL_RWFromFile(path, "rb");
-	}
-	#endif
+
 	if (!rw)
 	{
 		q_snprintf(path, sizeof(path), "%s/QuakeEX.kpf", com_basedir);
 		rw = SDL_RWFromFile(path, "rb");
-		#if defined(DO_USERDIRS)
-		if (!rw) {
-			q_snprintf(path, sizeof(path), "%s/QuakeEX.kpf", host_parms.userdir);
-			rw = SDL_RWFromFile(path, "rb");
-		}
-		#endif
 		if (!rw) goto fail;
 		sz = SDL_RWsize(rw);
 		if (sz <= 0) goto fail;

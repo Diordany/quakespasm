@@ -310,15 +310,6 @@ void IN_StartupJoystick (void)
 	if (nummappings > 0)
 		Con_Printf("%d mappings loaded from gamecontrollerdb.txt\n", nummappings);
 	
-	// Also try host_parms.userdir
-	if (host_parms.userdir != host_parms.basedir)
-	{
-		q_snprintf (controllerdb, sizeof(controllerdb), "%s/gamecontrollerdb.txt", host_parms.userdir);
-		nummappings = SDL_GameControllerAddMappingsFromFile(controllerdb);
-		if (nummappings > 0)
-			Con_Printf("%d mappings loaded from gamecontrollerdb.txt\n", nummappings);
-	}
-
 	for (i = 0; i < SDL_NumJoysticks(); i++)
 	{
 		const char *joyname = SDL_JoystickNameForIndex(i);

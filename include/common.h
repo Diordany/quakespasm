@@ -314,8 +314,6 @@ typedef struct pack_s
 typedef struct searchpath_s
 {
 	unsigned int path_id;	// identifier assigned to the game directory
-					// Note that <install_dir>/game1 and
-					// <userdir>/game1 have the same id.
 	char	filename[MAX_OSPATH];
 	pack_t	*pack;			// only one of filename / pack will be used
 	struct searchpath_s	*next;

@@ -34,9 +34,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <fcntl.h>
-#ifdef DO_USERDIRS
-#include <pwd.h>
-#endif
 
 #if defined(SDL_FRAMEWORK) || defined(NO_SDL_CONFIG)
 #if defined(USE_SDL2)
@@ -243,70 +240,6 @@ static int Sys_NumCPUs (void)
 
 static char	cwd[MAX_OSPATH];
 
-#ifdef DO_USERDIRS
-static char	userdir[MAX_OSPATH];
-#define SYS_USERDIR	".quakespasm"
-
-static qboolean Sys_GetUserdirArgs (int argc, char **argv, char *dst, size_t dstsize)
-{
-	int i = 1;
-	for (; i < argc - 1; ++i)
-	{
-		if (strcmp(argv[i], "-userdir") == 0)
-		{
-			char *p = dst;
-			const char * arg = argv[i + 1];
-			const int n = (int)strlen(arg);
-			if (n < 1) Sys_Error("Bad argument to -userdir");
-			if (q_strlcpy(dst, arg, dstsize) >= dstsize)
-				Sys_Error ("Insufficient array size for userspace directory");
-			if (dst[n - 1] == '/') dst[n - 1] = 0;
-			if (*p == '/') p++;
-			for (; *p; p++) {
-				const char c = *p;
-				if (c == '/') {
-					*p = 0;
-					Sys_mkdir (dst);
-					*p = c;
-				}
-			}
-			return true;
-		}
-	}
-	return false;
-}
-
-static void Sys_GetUserdir (int argc, char **argv, char *dst, size_t dstsize)
-{
-	size_t		n;
-	const char	*home_dir = NULL;
-	struct passwd	*pwent;
-
-	if (Sys_GetUserdirArgs(argc, argv, dst, dstsize))
-		return;
-
-	pwent = getpwuid( getuid() );
-	if (pwent == NULL)
-		perror("getpwuid");
-	else
-		home_dir = pwent->pw_dir;
-	if (home_dir == NULL)
-		home_dir = getenv("HOME");
-	if (home_dir == NULL)
-		Sys_Error ("Couldn't determine userspace directory");
-
-/* what would be a maximum path for a file in the user's directory...
- * $HOME/SYS_USERDIR/game_dir/dirname1/dirname2/dirname3/filename.ext
- * still fits in the MAX_OSPATH == 256 definition, but just in case :
- */
-	n = strlen(home_dir) + strlen(SYS_USERDIR) + 50;
-	if (n >= dstsize)
-		Sys_Error ("Insufficient array size for userspace directory");
-
-	q_snprintf (dst, dstsize, "%s/%s", home_dir, SYS_USERDIR);
-}
-#endif	/* DO_USERDIRS */
-
 static void Sys_GetBasedir (char *dst, size_t dstsize)
 {
 	char	*tmp;
@@ -340,14 +273,6 @@ void Sys_Init (void)
 	memset (cwd, 0, sizeof(cwd));
 	Sys_GetBasedir(cwd, sizeof(cwd));
 	host_parms.basedir = cwd;
-#ifndef DO_USERDIRS
-	host_parms.userdir = host_parms.basedir; /* code elsewhere relies on this ! */
-#else
-	memset (userdir, 0, sizeof(userdir));
-	Sys_GetUserdir (host_parms.argc, host_parms.argv, userdir, sizeof(userdir));
-	Sys_mkdir (userdir);
-	host_parms.userdir = userdir;
-#endif
 	host_parms.numcpus = Sys_NumCPUs ();
 	Sys_Printf("Detected %d CPUs.\n", host_parms.numcpus);
 }

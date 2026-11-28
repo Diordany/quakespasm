@@ -87,7 +87,7 @@ static int buttonremap[] =
 /* total accumulated mouse movement since last frame */
 static int	total_dx, total_dy = 0;
 
-static int SDLCALL IN_FilterMouseEvents (const SDL_Event *event)
+static int SDLCALL IN_FilterMouseEvents (void *userdata, SDL_Event *event)
 {
 	switch (event->type)
 	{
@@ -100,39 +100,22 @@ static int SDLCALL IN_FilterMouseEvents (const SDL_Event *event)
 	return 1;
 }
 
-#if defined(USE_SDL2)
-static int SDLCALL IN_SDL2_FilterMouseEvents (void *userdata, SDL_Event *event)
-{
-	return IN_FilterMouseEvents (event);
-}
-#endif
-
 static void IN_BeginIgnoringMouseEvents(void)
 {
-#if defined(USE_SDL2)
 	SDL_EventFilter currentFilter = NULL;
 	void *currentUserdata = NULL;
 	SDL_GetEventFilter(&currentFilter, &currentUserdata);
 
-	if (currentFilter != IN_SDL2_FilterMouseEvents)
-		SDL_SetEventFilter(IN_SDL2_FilterMouseEvents, NULL);
-#else
-	if (SDL_GetEventFilter() != IN_FilterMouseEvents)
-		SDL_SetEventFilter(IN_FilterMouseEvents);
-#endif
+	if (currentFilter != IN_FilterMouseEvents)
+		SDL_SetEventFilter(IN_FilterMouseEvents, NULL);
 }
 
 static void IN_EndIgnoringMouseEvents(void)
 {
-#if defined(USE_SDL2)
 	SDL_EventFilter currentFilter;
 	void *currentUserdata;
 	if (SDL_GetEventFilter(&currentFilter, &currentUserdata) == SDL_TRUE)
 		SDL_SetEventFilter(NULL, NULL);
-#else
-	if (SDL_GetEventFilter() != NULL)
-		SDL_SetEventFilter(NULL);
-#endif
 }
 
 #ifdef MACOS_X_ACCELERATION_HACK
@@ -210,41 +193,10 @@ void IN_Activate (void)
 	if (no_mouse)
 		return;
 
-#ifdef MACOS_X_ACCELERATION_HACK
-	/* Save the status of mouse acceleration */
-	if (originalMouseSpeed == -1 && in_disablemacosxmouseaccel.value)
-		IN_DisableOSXMouseAccel();
-#endif
-
-#if defined(USE_SDL2)
-#ifdef __APPLE__
-	{
-		// Work around https://github.com/sezero/quakespasm/issues/48
-		int width, height;
-		SDL_GetWindowSize((SDL_Window*) VID_GetWindow(), &width, &height);
-		SDL_WarpMouseInWindow((SDL_Window*) VID_GetWindow(), width / 2, height / 2);
-	}
-#endif
-
 	if (SDL_SetRelativeMouseMode(SDL_TRUE) != 0)
 	{
 		Con_Printf("WARNING: SDL_SetRelativeMouseMode(SDL_TRUE) failed.\n");
 	}
-#else
-	if (SDL_WM_GrabInput(SDL_GRAB_QUERY) != SDL_GRAB_ON)
-	{
-		SDL_WM_GrabInput(SDL_GRAB_ON);
-		if (SDL_WM_GrabInput(SDL_GRAB_QUERY) != SDL_GRAB_ON)
-			Con_Printf("WARNING: SDL_WM_GrabInput(SDL_GRAB_ON) failed.\n");
-	}
-
-	if (SDL_ShowCursor(SDL_QUERY) != SDL_DISABLE)
-	{
-		SDL_ShowCursor(SDL_DISABLE);
-		if (SDL_ShowCursor(SDL_QUERY) != SDL_DISABLE)
-			Con_Printf("WARNING: SDL_ShowCursor(SDL_DISABLE) failed.\n");
-	}
-#endif
 
 	IN_EndIgnoringMouseEvents();
 
@@ -257,30 +209,9 @@ void IN_Deactivate (qboolean free_cursor)
 	if (no_mouse)
 		return;
 
-#ifdef MACOS_X_ACCELERATION_HACK
-	if (originalMouseSpeed != -1)
-		IN_ReenableOSXMouseAccel();
-#endif
-
 	if (free_cursor)
 	{
-#if defined(USE_SDL2)
 		SDL_SetRelativeMouseMode(SDL_FALSE);
-#else
-		if (SDL_WM_GrabInput(SDL_GRAB_QUERY) != SDL_GRAB_OFF)
-		{
-			SDL_WM_GrabInput(SDL_GRAB_OFF);
-			if (SDL_WM_GrabInput(SDL_GRAB_QUERY) != SDL_GRAB_OFF)
-				Con_Printf("WARNING: SDL_WM_GrabInput(SDL_GRAB_OFF) failed.\n");
-		}
-
-		if (SDL_ShowCursor(SDL_QUERY) != SDL_ENABLE)
-		{
-			SDL_ShowCursor(SDL_ENABLE);
-			if (SDL_ShowCursor(SDL_QUERY) != SDL_ENABLE)
-				Con_Printf("WARNING: SDL_ShowCursor(SDL_ENABLE) failed.\n");
-		}
-#endif
 	}
 
 	/* discard all mouse events when input is deactivated */
